@@ -1,1 +1,1 @@
-c:\users\przemek\documents\visual studio 2015\Projects\App3\App3\App3.csproj;neutral
+C:\Users\grzes\OneDrive\Dokumenty\WindowsPhoneCalculator\App3\App3.csproj;neutral

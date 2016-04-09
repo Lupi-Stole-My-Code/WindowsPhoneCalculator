@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
@@ -23,11 +13,12 @@ namespace App3
     /// </summary>
     public sealed partial class BlankPage1 : Page
     {
-        private bool isDot = false;
         public BlankPage1()
         {
             this.InitializeComponent();
             DisplayProperties.OrientationChanged += abc;
+
+            // Przypisanie Eventów
             one_btn.Click += Values_Click;
             two_btn.Click += Values_Click;
             three_btn.Click += Values_Click;
@@ -50,22 +41,14 @@ namespace App3
             add_btn.Click += Operations_Click;
             dot_btn.Click += Operations_Click;
             equal_btn.Click += Equals_Click;
-            xsquared_btn.Click += Equals_Click;
-            onebyx_btn.Click += Equals_Click;
-            sin_btn.Click += Equals_Click;
-            cos_btn.Click += Equals_Click;
-            tan_btn.Click += Equals_Click;
+            xsquared_btn.Click += Operations_Click;
+            onebyx_btn.Click += Operations_Click;
+            squareroot_btn.Click += Operations_Click;
+            sin_btn.Click += Operations_Click;
+            cos_btn.Click += Operations_Click;
+            tan_btn.Click += Operations_Click;
 
             // DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
-        }
-
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
         }
 
         public void abc(object sender)
@@ -73,23 +56,21 @@ namespace App3
             switch (DisplayProperties.CurrentOrientation)
             {
                 case DisplayOrientations.Portrait:
-                    Frame.Navigate(typeof(MainPage));
-                    break;
                 case DisplayOrientations.PortraitFlipped: //goto zwykly
                     Frame.Navigate(typeof(MainPage));
                     break;
-
             }
 
         }
+
         private void Values_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (sender as Button);
             double val = Double.Parse(btn.Content.ToString());
             if (display.Text == "0") display.Text = "";
             display.Text += btn.Content;
-            //Calc.setData((int)val);
         }
+
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (sender as Button);
@@ -98,7 +79,6 @@ namespace App3
             double B = double.Parse(display.Text);
             bool val = Calc.getResult(B, out result, out comment);
             display.Text = result.ToString();
-            isDot = false;
         }
         private void Operations_Click(object sender, RoutedEventArgs e)
         {
@@ -126,14 +106,20 @@ namespace App3
                     display.Text = Calc.ExecEscalation(double.Parse(display.Text)).ToString();
                     break;
                 case "√":
+                    //TODO Check square root
                     display.Text = Calc.ExecSquareRoot(double.Parse(display.Text)).ToString();
                     break;
                 case ".":
-                    if (!isDot)
+                    try
+                    {
+                        string a = double.Parse(display.Text + ".0").ToString();
                         display.Text += ".";
-                    isDot = true;
+                    }
+                    catch
+                    {
+                        // do nothing
+                    }
                     return;
-                    break;
                 case "+/-":
                     display.Text = "-" + display.Text;
                     break;
@@ -166,8 +152,6 @@ namespace App3
                     display.Text = Calc.Tangens(double.Parse(display.Text)).ToString();
                     break;
             }
-            isDot = false;
-
         }
     }
 }

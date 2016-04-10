@@ -64,10 +64,20 @@ namespace App3
             Button btn = (sender as Button);
             if (display.Text == "0" || display.Text=="NaN") display.Text = "";
             display.Text += btn.Content;
+            if (!Calc.validateDisplay(display.Text))
+            {
+                display.Text = "Invalid Data";
+                return;
+            }
         }
 
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
+            if (!Calc.validateDisplay(display.Text))
+            {
+                display.Text = "Invalid Data";
+                return;
+            }
             Button btn = (sender as Button);
             string comment = "";
             double result;
@@ -79,6 +89,11 @@ namespace App3
         {
             Button btn = (sender as Button);
             string op = btn.Content.ToString();
+            if (!Calc.validateDisplay(display.Text) && op != "C")
+            {
+                display.Text = "Invalid Data";
+                return;
+            }
             switch (op)
             {
                 case "+":

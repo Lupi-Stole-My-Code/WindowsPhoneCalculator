@@ -1,8 +1,6 @@
-﻿using System;
-using Windows.Graphics.Display;
+﻿using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -47,8 +45,6 @@ namespace App3
             sin_btn.Click += Operations_Click;
             cos_btn.Click += Operations_Click;
             tan_btn.Click += Operations_Click;
-
-            // DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
         }
 
         public void abc(object sender)
@@ -66,8 +62,7 @@ namespace App3
         private void Values_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (sender as Button);
-            double val = Double.Parse(btn.Content.ToString());
-            if (display.Text == "0") display.Text = "";
+            if (display.Text == "0" || display.Text=="NaN") display.Text = "";
             display.Text += btn.Content;
         }
 
@@ -106,7 +101,6 @@ namespace App3
                     display.Text = Calc.ExecEscalation(double.Parse(display.Text)).ToString();
                     break;
                 case "√":
-                    //TODO Check square root
                     display.Text = Calc.ExecSquareRoot(double.Parse(display.Text)).ToString();
                     break;
                 case ".":

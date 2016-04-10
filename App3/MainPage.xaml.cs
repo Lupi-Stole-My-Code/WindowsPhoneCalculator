@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Graphics.Display;
 
@@ -23,7 +13,6 @@ namespace App3
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private bool isDot = false;
         public MainPage()
         {
             this.InitializeComponent();
@@ -54,28 +43,11 @@ namespace App3
             equal.Click += Equals_Click;
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
-        }
         public void abc(object sender)
         {
             switch(DisplayProperties.CurrentOrientation)
             {
                 case DisplayOrientations.Landscape:
-                    Frame.Navigate(typeof(BlankPage1));
-                    break;
                 case DisplayOrientations.LandscapeFlipped: //to samo co w landscape. olac odwrotnosc
                     Frame.Navigate(typeof(BlankPage1));
                     break;  
@@ -85,10 +57,8 @@ namespace App3
         private void Values_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (sender as Button);
-            double val = Double.Parse(btn.Content.ToString());
             if (display.Text == "0") display.Text = "";
             display.Text += btn.Content;
-            //Calc.setData((int)val);
         }
         private void Equals_Click(object sender, RoutedEventArgs e)
         {
@@ -98,7 +68,6 @@ namespace App3
             double B = double.Parse(display.Text);
             bool val = Calc.getResult(B, out result, out comment);
             display.Text = result.ToString();
-            isDot = false;
         }
         private void Operations_Click(object sender, RoutedEventArgs e)
         {
@@ -129,11 +98,16 @@ namespace App3
                     display.Text = Calc.ExecSquareRoot(double.Parse(display.Text)).ToString();
                     break;
                 case ".":
-                    if(!isDot)
-                    display.Text += ".";
-                    isDot = true;
+                    try
+                    {
+                        string a = double.Parse(display.Text + ".0").ToString();
+                        display.Text += ".";
+                    }
+                    catch
+                    {
+                        // do nothing
+                    }
                     return;
-                    break;
                 case "+/-":
                     display.Text = "-" + display.Text;
                     break;
@@ -166,7 +140,6 @@ namespace App3
                     display.Text = Calc.Tangens(double.Parse(display.Text)).ToString();
                     break;
             }
-            isDot = false;
 
         }
     }

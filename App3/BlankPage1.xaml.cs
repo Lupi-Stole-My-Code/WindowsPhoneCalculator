@@ -89,11 +89,6 @@ namespace App3
         {
             Button btn = (sender as Button);
             string op = btn.Content.ToString();
-            if (!Calc.validateDisplay(display.Text) && op != "C")
-            {
-                display.Text = "Invalid Data";
-                return;
-            }
             switch (op)
             {
                 case "+":
